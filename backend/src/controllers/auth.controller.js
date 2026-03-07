@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -92,6 +93,7 @@ export const login = async (req, res) => {
     console.error("Error in login controller: ", err);
     res.status(500).json({ message: "Internal server error" });
   }
+
 };
 
 export const logout = async (_, res) => {
@@ -100,8 +102,5 @@ export const logout = async (_, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const { email } = req.body;
-
-  const user = await User.findOne({ email });
   
 };
