@@ -36,29 +36,57 @@ export const getMessagesByUserId = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
-    const {id: recieverId} = req.params;
+    const { id: recieverId } = req.params;
     const senderId = req.user._id;
 
     //uploading to cloudinary
     let imageUrl;
-    if(image){
+    if (image) {
       const uploadResponse = await cloudinary.uploader.upload(image);
       imageUrl = uploadResponse.secure_url;
     }
 
-    const newMessage = ({
+    const newMessage = {
       senderId,
       recieverId,
       text,
       image: imageUrl,
-    });
+    };
 
     //todo: sent message
 
     await newMessage.save();
     res.status(201).json(newMessage);
-
   } catch (err) {
+    console.log("Error in sendMessageContoller: ", err);
 
+    res.status(404).json({ error: "Internal server error" });
+  }
+};
+
+export const getChatPartners = async (req, res) => {
+  try {
+    const loggenInUserId = req.user._id;
+
+    const messages = await Message.find({
+      $or: [{ senderId: loggenInUserId }, { recieverId: loggenInUserId }],
+    });
+
+    const chatPartnerIds = [
+      ...new Set(
+        messages.map((msg) =>
+          msg.senderId.toString() === loggenInUserId.toString()
+            ? msg.recieverId.toString()
+            : msg.senderId.toString(),
+        ),
+      ),
+    ];
+
+    const chatPartners = await User.find({_id: {$in:chatPartnerIds}}).select("-password");
+
+    res.status(200).json(chatPartners);
+  } catch (err) {
+    console.log("Error in getchatPartners: ",err );
+    res.status(500).json({error:"Internal server error"});
   }
 };
