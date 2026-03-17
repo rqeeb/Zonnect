@@ -6,7 +6,8 @@ import SignUpPage from "./pages/SignUpPage";
 import { useAuthStore } from "./store/useAuthStore";
 import PageLoader from "./components/PageLoader.jsx";
 
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function App() {
   const { checkAuth, isCheckingAuth, authUser } = useAuthStore();
@@ -42,7 +43,14 @@ function App() {
         />
       </Routes>
 
-      <Toaster/>
+      <button
+        className="relative z-50 bg-black text-white px-4 py-2 rounded"
+        onClick={() => toast.success("It")}
+      >
+        Click Me
+      </button>
+
+      <Toaster />
     </div>
   );
 }
