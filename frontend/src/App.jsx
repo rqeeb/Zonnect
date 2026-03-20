@@ -38,6 +38,7 @@ function App() {
         />
         <Route
           path="/login"
+
           element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
           // element= {<LoginPage/>}
         />
@@ -49,6 +50,7 @@ function App() {
       </Routes>
 
       <Toaster />
+      
     </div>
   );
 }
