@@ -12,6 +12,9 @@ export default {
         border: {
           to: { "--border-angle": "360deg" },
         },
+        fontFamily: {
+          display: ["Cormorant Garamond", "serif"],
+        },
       },
     },
   },

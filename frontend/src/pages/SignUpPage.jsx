@@ -132,7 +132,7 @@ before:border before:border-white/20 before:pointer-events-none"
 
                   <div className="mt-4 flex justify-center gap-4">
                     <span className="auth-badge">Free</span>
-                    <span className="auth-badge">Easy Setup</span>
+                    <span className="auth-badge">Minimalist</span>
                     <span className="auth-badge">Private</span>
                   </div>
                 </div>

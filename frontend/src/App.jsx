@@ -4,7 +4,7 @@ import ChatPage from "./pages/ChatPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import { useAuthStore } from "./store/useAuthStore";
-import PageLoader from "./components/PageLoader.jsx";
+import LandingPage from "./components/PageLoader.jsx";
 
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
@@ -18,7 +18,8 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) return <PageLoader />;
+  
+  // if(true) return <LandingPage/>
   return (
     <div
       className="min-h-screen bg-[#f3eadf] relative flex items-center 
@@ -29,6 +30,8 @@ function App() {
       <div className="absolute bottom-0 -right-4 size-96 bg-[rgb(218,90,56)] opacity-20 blur-[100px]" />
 
       <Routes>
+        <Route path="/landing" element={<LandingPage />} />
+
         <Route
           path="/"
           element={authUser ? <ChatPage /> : <Navigate to={"/signup"} />}
@@ -43,10 +46,7 @@ function App() {
           element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
           // element={<SignUpPage />}
         />
-        
       </Routes>
-
-    
 
       <Toaster />
     </div>
