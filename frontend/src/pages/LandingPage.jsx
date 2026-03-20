@@ -25,7 +25,7 @@ const LandingPage = () => {
           <div className="mt-10 flex items-center justify-center">
             <button
               onClick={() => navigate("/")}
-              className="px-6 py-3 rounded-full bg-[#2f2926] text-[#f3eadf] hover:opacity-90 transition"
+              className="px-6 py-3 rounded-full bg-[#c45d41] text-[#f3eadf] hover:opacity-90 transition"
             >
               Get Started (beta)
             </button>
