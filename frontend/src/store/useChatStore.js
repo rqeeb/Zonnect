@@ -10,5 +10,16 @@ export const useAuthStore = create((set, get) => ({
   isMessagesLoading: false,
   isSoundEnabled: localStorage.getItem("isSoundEnabled") === true,
 
-  
+  toggleSound: () => {
+    localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
+    set({isSoundEnabled: !get().isSoundEnabled});
+  },
+
+  setActiveTab: (tab) => set({activeTab:tab})
+  setSelectedUser: (selectedUser) => set({selectedUser});
+
+  getAllContacts: async () => {}
+  getChatPartners: async () =>{}
 }));
+
+
