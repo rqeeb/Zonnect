@@ -1,7 +1,7 @@
 import { generateToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import { sendWelcomeEmail } from "../emails/emailHandlers.js";
+// import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
 import cloudinary from "../lib/cloudinary.js";
 
@@ -47,16 +47,15 @@ export const signup = async (req, res) => {
         profilePic: newUser.profilePic,
       });
 
-      //TODO: send welcome mail!
-      try {
-        await sendWelcomeEmail(
-          savedUser.email,
-          savedUser.fullName,
-          ENV.CLIENT_URL,
-        );
-      } catch (err) {
-        console.error("Failed to send welcome mail", err);
-      }
+      // try {
+      //   await sendWelcomeEmail(
+      //     savedUser.email,
+      //     savedUser.fullName,
+      //     ENV.CLIENT_URL,
+      //   );
+      // } catch (err) {
+      //   console.error("Failed to send welcome mail", err);
+      // }
     } else {
       res.status(400).json({ message: "Invalid user data" });
     }
