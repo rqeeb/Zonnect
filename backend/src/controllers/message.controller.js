@@ -20,10 +20,10 @@ export const getMessagesByUserId = async (req, res) => {
     const myId = req.user._id;
     const { id: userToChatId } = req.params;
 
-    const message = await Message.find({
+    const messages = await Message.find({
       $or: [
-        { senderId: myId, recieverId: userToChatId },
-        { senderId: userToChatId, recieverId: myId },
+        { senderId: myId, receiverId: userToChatId },
+        { senderId: userToChatId, receiverId: myId },
       ],
     });
 
@@ -36,7 +36,7 @@ export const getMessagesByUserId = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
-    const { id: recieverId } = req.params;
+    const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
     if (!text && !image) {
@@ -59,12 +59,12 @@ export const sendMessage = async (req, res) => {
       imageUrl = uploadResponse.secure_url;
     }
 
-    const newMessage = {
+    const newMessage = new Message({
       senderId,
-      recieverId,
+      receiverId,
       text,
       image: imageUrl,
-    };
+    });
 
     await newMessage.save();
     res.status(201).json(newMessage);
@@ -80,14 +80,14 @@ export const getChatPartners = async (req, res) => {
     const loggenInUserId = req.user._id;
 
     const messages = await Message.find({
-      $or: [{ senderId: loggenInUserId }, { recieverId: loggenInUserId }],
+      $or: [{ senderId: loggenInUserId }, { receiverId: loggenInUserId }],
     });
 
     const chatPartnerIds = [
       ...new Set(
         messages.map((msg) =>
           msg.senderId.toString() === loggenInUserId.toString()
-            ? msg.recieverId.toString()
+            ? msg.receiverId.toString()
             : msg.senderId.toString(),
         ),
       ),

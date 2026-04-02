@@ -6,7 +6,7 @@ import { useAuthStore } from "../store/useAuthStore";
 function ChatHeader() {
   const { selectedUser, setSelectedUser } = useChatStore();
   const { onlineUsers } = useAuthStore();
-  const isOnline = onlineUsers.includes(selectedUser._id);
+  const isOnline = onlineUsers?.includes(selectedUser?._id);
 
   useEffect(() => {
     const handleEscKey = (event) => {
@@ -19,14 +19,10 @@ function ChatHeader() {
   }, [setSelectedUser]);
 
   return (
-    <div
-      className="flex justify-between items-center bg-slate-800/50 border-b
-   border-slate-700/50 max-h-[84px] px-6 flex-1"
-    >
-      <div className="flex items-center space-x-3">
-        <div className={`avatar online`}>
-          {/* //TODO: use socket to fix online status. */}
-          <div className="w-12 rounded-full">
+    <div className="flex justify-between items-center bg-[#e6dccb]/90 border-b border-[#b8aa98]/60 px-6 py-4 min-h-[84px]">
+      <div className="flex items-center space-x-3 min-w-0">
+        <div className={`avatar ${isOnline ? "online" : ""}`}>
+          <div className="w-12 rounded-full border border-[#b8aa98]/70">
             <img
               src={selectedUser.profilePic || "/avatar.png"}
               alt={selectedUser.fullName}
@@ -34,20 +30,24 @@ function ChatHeader() {
           </div>
         </div>
 
-        <div>
-          <h3 className="text-slate-200 font-medium">
+        <div className="min-w-0">
+          <h3 className="text-[#2f2926] font-medium truncate">
             {selectedUser.fullName}
           </h3>
-          <p className="text-slate-400 text-sm">
+          <p className="text-[#7a6d62] text-sm">
             {isOnline ? "Online" : "Offline"}
           </p>
         </div>
       </div>
 
-      <button onClick={() => setSelectedUser(null)}>
-        <XIcon className="w-5 h-5 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer" />
+      <button
+        onClick={() => setSelectedUser(null)}
+        className="p-2 rounded-lg text-[#7a6d62] hover:text-[#2f2926] hover:bg-[#f3eadf] transition-colors"
+      >
+        <XIcon className="w-5 h-5" />
       </button>
     </div>
   );
 }
+
 export default ChatHeader;

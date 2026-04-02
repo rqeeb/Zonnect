@@ -19,13 +19,17 @@ function MessageInput() {
       text: text.trim(),
       image: imagePreview,
     });
+
     setText("");
-    setImagePreview("");
+    setImagePreview(null);
+
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
@@ -42,18 +46,19 @@ function MessageInput() {
   };
 
   return (
-    <div className="p-4 border-t border-slate-700/50">
+    <div className="p-4 border-t border-[#b8aa98]/60 bg-[#e6dccb]/90">
       {imagePreview && (
         <div className="max-w-3xl mx-auto mb-3 flex items-center">
           <div className="relative">
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-slate-700"
+              className="w-20 h-20 object-cover rounded-xl border border-[#b8aa98]/70 shadow-sm"
             />
+
             <button
               onClick={removeImage}
-              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-slate-200 hover:bg-slate-700"
+              className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#2f2926] flex items-center justify-center text-white hover:bg-[#d65a38] transition-colors"
               type="button"
             >
               <XIcon className="w-4 h-4" />
@@ -64,16 +69,17 @@ function MessageInput() {
 
       <form
         onSubmit={handleSendMessage}
-        className="max-w-3xl mx-auto flex space-x-4"
+        className="max-w-3xl mx-auto flex items-center gap-3"
       >
         <input
           type="text"
           value={text}
           onChange={(e) => {
             setText(e.target.value);
-            isSoundEnabled && playRandomKeyStrokeSound();
+
+            
           }}
-          className="flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4"
+          className="flex-1 bg-[#f3eadf] border border-[#b8aa98] rounded-xl py-3 px-4 text-[#2f2926] placeholder-[#8a7a6a] focus:outline-none focus:ring-0 focus:border-[#d65a38]"
           placeholder="Type your message..."
         />
 
@@ -88,16 +94,19 @@ function MessageInput() {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className={`bg-slate-800/50 text-slate-400 hover:text-slate-200 rounded-lg px-4 transition-colors ${
-            imagePreview ? "text-cyan-500" : ""
+          className={`rounded-xl px-4 py-3 border transition-colors ${
+            imagePreview
+              ? "bg-[#d65a38]/10 text-[#d65a38] border-[#d65a38]/30"
+              : "bg-[#f3eadf] text-[#7a6d62] border-[#b8aa98] hover:text-[#2f2926]"
           }`}
         >
           <ImageIcon className="w-5 h-5" />
         </button>
+
         <button
           type="submit"
           disabled={!text.trim() && !imagePreview}
-          className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#d65a38] text-white rounded-xl px-4 py-3 font-medium hover:bg-[#b94d2f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <SendIcon className="w-5 h-5" />
         </button>
@@ -105,4 +114,5 @@ function MessageInput() {
     </div>
   );
 }
+
 export default MessageInput;
