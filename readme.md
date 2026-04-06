@@ -1,6 +1,6 @@
 # Zonnect - Real-Time Chat App (BETA)
 
-Zonnect is a modern real-time chat application built using the MERN stack. It focuses on simplicity, performance, and a clean user experience.
+Zonnect is a minimalist real-time chat application built using the MERN stack.
 
 This project is currently in BETA, so features are still being developed and improved.
 
