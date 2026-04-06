@@ -83,19 +83,32 @@ export const useAuthStore = create((set, get) => ({
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
 
-    const socket = io(BASE_URL, {
+    const socket = io("https://zonnect.onrender.com", {
       withCredentials: true,
-      transports: ["polling"],
+      query: {
+        userId: authUser._id,
+      },
+      transports: ["websocket"],
     });
 
-    socket.connect();
+    socket.on("connect", () => {
+      console.log("Socket connected:", socket.id);
+    });
 
-    set({ socket });
+    socket.on("connect_error", (err) => {
+      console.log(" Socket error:", err.message);
+    });
 
-    //listen events
+    socket.on("disconnect", () => {
+      console.log(" Socket disconnected");
+    });
+
     socket.on("getOnlineUsers", (userIds) => {
+      console.log(" Online users:", userIds);
       set({ onlineUsers: userIds });
     });
+
+    set({ socket });
   },
 
   disconnectSocket: () => {
