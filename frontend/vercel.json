@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/api/:path*",
+      "destination": "https://zonnect.onrender.com/api/:path*"
     }
   ]
 }
